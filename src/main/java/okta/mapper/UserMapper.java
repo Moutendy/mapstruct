@@ -19,6 +19,9 @@ public interface UserMapper {
 	 UserDto toDto(UserModel user);
 	
 
+	 @Mapping(target="id", source="userDto.id")
+	 @Mapping(target="tel", source="userDto.tel")
+	 UserModel userDtotoUser(UserDto userDto);
 	
 	List<UserDto> listtoDto(List<UserModel> user);
 	
