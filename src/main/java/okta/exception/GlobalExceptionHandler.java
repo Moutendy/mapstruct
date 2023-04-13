@@ -17,4 +17,12 @@ public class GlobalExceptionHandler {
 		return new ErrorResponse(
 		   HttpStatus.NOT_FOUND.value(), ex.getMessage());
 		}
+		 
+		 @ExceptionHandler(value
+	             = CustomerAlreadyExistsException.class)
+		public @ResponseBody ErrorResponse searchException(CustomerAlreadyExistsException ex) {
+			return  new ErrorResponse(
+		   HttpStatus.NOT_FOUND.value(), ex.getMessage());
+			
+		}
 }

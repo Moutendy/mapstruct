@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import okta.dto.UserDto;
-import okta.models.UserModel;
 import okta.services.UserServices;
 
 @RestController
@@ -22,7 +21,7 @@ public class UserControllers {
 	
 	
 
-    @PostMapping(value = "/alluser",produces = "application/json")
+    @PostMapping(value = "/adduser",produces = "application/json")
     public String getNatureByCommunity(@RequestBody UserDto user){
         return userService.addUser(user);
     }

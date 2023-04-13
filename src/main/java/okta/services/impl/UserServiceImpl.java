@@ -10,6 +10,7 @@ import okta.mapper.UserMapper;
 import okta.models.UserModel;
 import okta.repositories.UserRepository;
 import okta.services.UserServices;
+import okta.utils.Constante;
 
 @Service
 public class UserServiceImpl implements UserServices{
@@ -19,28 +20,32 @@ public class UserServiceImpl implements UserServices{
 	@Autowired
 	UserMapper userMapper;
 
+	
 	@Override
 	public UserDto getUser(String  tel) {
 		// TODO Auto-generated method stub
-	return userMapper.toDto(userRepository.findByTel(tel));
-		
+		UserDto userDto = userMapper.toDto(userRepository.findByTel(tel));
+		   if (userDto != null) {
+		          return userDto;
+		  } else {
+			   throw new CustomerAlreadyExistsException(
+					   Constante.SEARCH_ERROR);
+		  }
 	}
 
 	@Override
 	public String addUser(UserDto user) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 		UserModel existingCustomer
         = userRepository.findById(user.getId())
               .orElse(null);
-		
 		 if (existingCustomer == null) {
 			 userRepository.save(userMapper.userDtotoUser(user));
-	            return "Customer added successfully";
+	            return Constante.SAVE_MESSAGE;
 	        }
 	        else
 	            throw new CustomerAlreadyExistsException(
-	                "Customer already exists!!");
+	                Constante.ERROR_SAVE_MESSAGE);
 	}
 
 	@Override
@@ -51,11 +56,11 @@ public class UserServiceImpl implements UserServices{
                 .orElse(null);
     if (existingCustomer == null)
         throw new NoSuchCustomerExistsException(
-            "No Such Customer exists!!");
+        		Constante.ERROR_UPDATE_MESSAGE);
     else {
         existingCustomer.setTel(user.getTel());        
         userRepository.save(existingCustomer);
-        return "Record updated Successfully";
+        return Constante.UPDATE_MESSAGE;
     }
 	}
 
